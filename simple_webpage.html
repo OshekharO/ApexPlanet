@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My First Website</title>
+  <style>
+    /* Basic page styling */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      color: #263238;
+      background: #f2f7f6;
+    }
+
+    header {
+      background: #087f78;
+      color: white;
+      text-align: center;
+      padding: 28px 16px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 8px 0 0;
+    }
+
+    nav {
+      background: #055e59;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      width: min(900px, 92%);
+      margin: 28px auto;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 20px;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    h2 {
+      color: #087f78;
+      margin-top: 0;
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 9px;
+      margin: 16px 0;
+    }
+
+    .button {
+      display: inline-block;
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 18px;
+      background: #087f78;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: #055e59;
+    }
+
+    a {
+      color: #087f78;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      background: #e0eeeb;
+      color: #405451;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      nav a { display: inline-block; margin: 4px 8px; }
+      section { padding: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="home">
+    <h1>Welcome to My First Website</h1>
+    <p>Learning HTML, CSS and JavaScript</p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#learn">What I Learn</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2>About This Website</h2>
+      <p>
+        This is a simple webpage created to practise the fundamentals of
+        web development. HTML provides the structure, CSS makes the page
+        attractive, and JavaScript adds interactivity.
+      </p>
+      <img
+        class="hero-image"
+        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80"
+        alt="Laptop on a desk displaying a web development workspace">
+      <p>
+        Visit <a href="https://developer.mozilla.org/en-US/docs/Learn"
+        target="_blank" rel="noopener noreferrer">MDN Web Docs</a>
+        to explore web development tutorials.
+      </p>
+    </section>
+
+    <section id="learn">
+      <h2>What I Am Learning</h2>
+      <h3>1. HTML – Structure</h3>
+      <p>HTML is used to create headings, paragraphs, images, links and other webpage elements.</p>
+
+      <h3>2. CSS – Design</h3>
+      <p>CSS controls colours, fonts, spacing, borders and the layout of the webpage.</p>
+
+      <h3>3. JavaScript – Interaction</h3>
+      <p>JavaScript makes webpages interactive. Click the button below to see a simple example.</p>
+      <button class="button" type="button" onclick="showMessage()">Click Me</button>
+    </section>
+
+    <section id="contact">
+      <h2>Thank You for Visiting!</h2>
+      <p>This sample website was made using basic HTML, CSS and JavaScript.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 My First Website | Created for Web Development Practice</p>
+  </footer>
+
+  <script>
+    // Show an alert when the button is clicked
+    function showMessage() {
+      alert("Hello! You have successfully used JavaScript.");
+    }
+  </script>
+</body>
+</html>
