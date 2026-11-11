@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Form and To-Do List</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;line-height:1.6;color:#263238;background:#f3f8f7}
+header{background:#087f78;color:white;text-align:center;padding:26px 15px}header h1{margin:0}
+nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px 26px;background:#055e59;padding:13px}
+nav a{color:white;text-decoration:none;font-weight:bold}nav a:hover{text-decoration:underline}
+main{width:min(1000px,92%);margin:28px auto}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.card{background:white;padding:24px;border-radius:12px;box-shadow:0 3px 14px #00000012;min-width:0}
+h2{color:#087f78;margin-top:0}label{display:block;font-weight:bold;margin:12px 0 5px}
+input,textarea{width:100%;padding:11px;border:1px solid #b8c9c6;border-radius:7px;font:inherit}
+input:focus,textarea:focus{outline:2px solid #70b8ad;border-color:#087f78}textarea{min-height:105px;resize:vertical}
+button{padding:10px 17px;border:0;border-radius:7px;background:#087f78;color:white;font-size:1rem;cursor:pointer}
+button:hover{background:#055e59}button:focus-visible{outline:3px solid #83c8bd;outline-offset:2px}
+.status{min-height:24px;font-weight:bold}.success{color:#167044}.error{color:#b42318}
+.todo-entry{display:flex;gap:8px}.todo-entry input{flex:1;min-width:0}
+#taskList{list-style:none;padding:0;margin-top:18px}
+#taskList li{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px;padding:10px 12px;background:#edf5f3;border-radius:7px;overflow-wrap:anywhere}
+#taskList li button{background:#b42318;padding:6px 10px;font-size:.9rem;flex-shrink:0}
+footer{text-align:center;padding:18px;background:#e0eeeb;color:#405451;margin-top:30px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}main{width: min(92%,520px);margin:18px auto}.card{padding:19px}}
+@media(max-width:380px){.todo-entry{flex-direction:column}.todo-entry button{width:100%}}
+</style>
+</head>
+<body>
+<header id="home"><h1>Contact &amp; To-Do</h1><p>A simple website built with HTML, CSS and JavaScript</p></header>
+<nav aria-label="Main navigation"><a href="#home">Home</a><a href="#contact">Contact Form</a><a href="#todo">To-Do List</a></nav>
+<main><div class="grid">
+<section class="card" id="contact">
+<h2>Contact Us</h2><p>Fill in the form. All fields are required.</p>
+<form id="contactForm" novalidate>
+<label for="name">Full Name</label><input id="name" type="text" placeholder="Enter your name" required minlength="2">
+<label for="email">Email Address</label><input id="email" type="email" placeholder="name@example.com" required>
+<label for="message">Message</label><textarea id="message" placeholder="Write your message" required minlength="5"></textarea>
+<button type="submit">Submit Form</button><p id="formStatus" class="status" aria-live="polite"></p>
+</form></section>
+<section class="card" id="todo">
+<h2>My To-Do List</h2><p>Add tasks and remove them when they are complete.</p>
+<form id="todoForm"><label for="taskInput">New Task</label><div class="todo-entry">
+<input id="taskInput" type="text" placeholder="E.g. Practise HTML" required><button type="submit">Add Task</button>
+</div></form>
+<ul id="taskList" aria-live="polite"></ul><p id="todoStatus" class="status">No tasks added yet.</p>
+</section></div></main>
+<footer><p>&copy; 2026 Contact &amp; To-Do Website | Web Development Practice</p></footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Validate the contact form before showing the success message.
+  const contactForm = document.getElementById("contactForm");
+  const formStatus = document.getElementById("formStatus");
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("email");
+  const messageInput = document.getElementById("message");
+
+  contactForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    formStatus.textContent = "";
+    formStatus.className = "status";
+
+    if (nameInput.value.trim().length < 2) {
+      showError("Please enter a name with at least 2 characters.", nameInput);
+      return;
+    }
+    if (emailInput.value.trim() === "" || !emailInput.validity.valid) {
+      showError("Please enter a valid email address.", emailInput);
+      return;
+    }
+    if (messageInput.value.trim().length < 5) {
+      showError("Please enter a message with at least 5 characters.", messageInput);
+      return;
+    }
+
+    formStatus.textContent = "Thank you! Your form has been validated successfully.";
+    formStatus.classList.add("success");
+    contactForm.reset();
+  });
+
+  function showError(message, field) {
+    formStatus.textContent = message;
+    formStatus.classList.add("error");
+    field.focus();
+  }
+
+  // Add tasks dynamically and give each task its own Remove button.
+  const todoForm = document.getElementById("todoForm");
+  const taskInput = document.getElementById("taskInput");
+  const taskList = document.getElementById("taskList");
+  const todoStatus = document.getElementById("todoStatus");
+
+  todoForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const taskText = taskInput.value.trim();
+    if (!taskText) { taskInput.focus(); return; }
+
+    const item = document.createElement("li");
+    const label = document.createElement("span");
+    label.textContent = taskText;
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", function () {
+      item.remove();
+      updateTaskCount();
+    });
+
+    item.append(label, removeButton);
+    taskList.appendChild(item);
+    taskInput.value = "";
+    taskInput.focus();
+    updateTaskCount();
+  });
+
+  function updateTaskCount() {
+    const count = taskList.children.length;
+    todoStatus.textContent = count === 0 ? "No tasks added yet." :
+      count + (count === 1 ? " task added." : " tasks added.");
+  }
+});
+</script>
+</body>
+</html>
